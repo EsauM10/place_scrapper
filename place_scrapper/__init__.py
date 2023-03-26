@@ -1,2 +1,2 @@
-from place_scrapper.scrapper import PlaceScrapper
+from place_scrapper.scrapper import GooglePlaces
 from place_scrapper.protocols import Selectors

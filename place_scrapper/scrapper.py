@@ -3,7 +3,7 @@ from place_scrapper.models import Place
 
 
 
-class PlaceScrapper:
+class GooglePlaces:
     @staticmethod
     def get_places(query: str) -> list[Place]:
         scrapper = SeleniumScrapper()
