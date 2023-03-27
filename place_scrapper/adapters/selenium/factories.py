@@ -15,7 +15,8 @@ class PlaceFactory:
 
     def __get_address(self) -> str:
         try:
-            return self.find_element_by_xpath(Selectors.PLACE_ADDRESS).text
+            aria_label = self.find_element_by_xpath(Selectors.PLACE_ADDRESS).get_attribute('aria-label')
+            return aria_label.split(':').pop().strip()
         except:
             return ''
 

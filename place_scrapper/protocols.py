@@ -7,7 +7,7 @@ class Selectors:
     ARTICLES: str               = 'div/div[@role="article"]'
     FEED: str                   = '//div[@role="feed"]'
     FEED_FOOTER: str            = '//div[@class="m6QErb tLjsW eKbjU"]'
-    PLACE_ADDRESS: str          = '//img[@src="//www.gstatic.com/images/icons/material/system_gm/1x/place_gm_blue_24dp.png"]/../../../div[3]'
+    PLACE_ADDRESS: str          = '//img[@src="//www.gstatic.com/images/icons/material/system_gm/1x/place_gm_blue_24dp.png"]/../../../..'
     PLACE_CONTAINER: str        = '//div[@role="main"]'
     PLACE_HOURS: str            = '//img[@src="//www.gstatic.com/images/icons/material/system_gm/1x/schedule_gm_blue_24dp.png"]/../../div[2]'
     PLACE_IMAGE: str            = '//div[@class="RZ66Rb FgCUCc"]/button/img'
