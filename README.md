@@ -1,4 +1,5 @@
 ![](https://img.shields.io/badge/python-3.9+-blue.svg)
+![](https://img.shields.io/badge/selenium-4.8+-silver.svg)
 # Google Places Scrapper
 
 ## Installation
