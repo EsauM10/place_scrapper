@@ -34,12 +34,14 @@ class SeleniumScrapper(Scrapper):
     def get_places(self, place_urls: list[str]) -> list[Place]:
         places = []
         driver = SeleniumDriver()
-
+        
         try:
-            for url in place_urls:
+            for i, url in enumerate(place_urls):
+                print(f'Scrapping places... ({i+1}/{len(place_urls)})', end='\r')
                 driver.goto(url)
                 place_div = driver.await_element(Selectors.PLACE_CONTAINER, timeout=5)
                 places.append(PlaceFactory(url, element=place_div).make_place())
+
         except: pass
         finally:
             driver.close()

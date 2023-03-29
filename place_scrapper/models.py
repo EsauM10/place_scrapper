@@ -36,3 +36,6 @@ class Place:
             'url': self.url_to_maps
         }
     
+    def __str__(self) -> str:
+        return f'Place(title={self.title}, rating={self.rating}, address={self.address})'
+    
