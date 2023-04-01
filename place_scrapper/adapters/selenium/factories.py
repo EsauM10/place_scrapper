@@ -65,8 +65,10 @@ class PlaceFactory:
             return 0
     
     def __get_title(self) -> str:
-        return self.find_element_by_xpath(Selectors.PLACE_TITLE).text
-
+        try:
+            return self.find_element_by_xpath(Selectors.PLACE_TITLE).text
+        except:
+            return ''
 
     def make_place(self) -> Place:
         place = Place(
