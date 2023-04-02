@@ -71,7 +71,7 @@ class PlaceFactory:
             return ''
 
     def make_place(self) -> Place:
-        place = Place(
+        return Place(
             title=self.__get_title(),
             rating=self.__get_rating(),
             recommendations=self.__get_recommendations(),
@@ -82,4 +82,4 @@ class PlaceFactory:
             image_url=self.__get_image_url(),
             url_to_maps=self.url
         )
-        return place
+    
