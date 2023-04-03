@@ -1,49 +1,32 @@
 from place_scrapper import helpers
 
 def test_should_extract_hours_from_a_string():
-    values = [
-        '12:00:15 to 15:00, 19:00 to 23:00',
-        '12:00abc15:000',
-        '09:a0 10:0O 11:00',
-        'abcdef14:00ghijklm',
-        'Some Text',
-        '1200 - 1500',
-    ]
-    expected = [
-        ['12:00', '15:00', '19:00', '23:00'],
-        ['12:00', '15:00'],
-        ['11:00'],
-        ['14:00'],
-        [], []
-    ]
-    for i, value in enumerate(values):
+    values = {
+        '12:00:15 to 15:00, 19:00 to 23:00': ['12:00', '15:00', '19:00', '23:00'],
+        '12:00abc15:000': ['12:00', '15:00'],
+        '09:a0 10:0O 11:00': ['11:00'],
+        'abcdef14:00ghijklm': ['14:00'],
+        'Some Text': [],
+        '1200 - 1500': [],
+    }
+    for value, expected in values.items():
         result = helpers.extract_hours(value)
-        assert result == expected[i]
+        assert result == expected
 
 
 def test_should_extract_numbers_from_a_string():
-    values = [
-        '12:00:15 to 15,3,14',
-        '12.00 - (1.500)',
-        '12abc15,000',
-        'abcdefghijklm',
-        'PI is 3,14, Eulers Constant is 0.57',
-        'Some:1800Text',
-        '1.000.000 years'
-        
-    ]
-    expected = [
-        ['12', '00', '15', '15,3', '14'],
-        ['12.00', '1.500'],
-        ['12', '15,000'],
-        [],
-        ['3,14', '0.57'],
-        ['1800'],
-        ['1.000', '000']
-    ]
-    for i, value in enumerate(values):
+    values = {
+        '12:00:15 to 15,3,14': ['12', '00', '15', '15,3', '14'],
+        '12.00 - (1.500)': ['12.00', '1.500'],
+        '12abc15,000': ['12', '15,000'],
+        'abcdefghijklm': [],
+        'PI is 3,14, Eulers Constant is 0.57': ['3,14', '0.57'],
+        'Some:1800Text': ['1800'],
+        '1.000.000 years': ['1.000', '000']   
+    }
+    for value, expected in values.items():
         result = helpers.extract_numbers(value)
-        assert result == expected[i]
+        assert result == expected
 
 
 def test_should_return_true_if_string_is_a_positive_number():
