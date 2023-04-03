@@ -23,11 +23,16 @@ def join_hours(values: list[str]) -> list[str]:
 
 def split_business_hours(text: str) -> dict[str, list[str]]:
     business_hours = {}
+    if(len(text.split(';')) == 1):
+        return {}
+    
     for item in text.split(';'):
         data = item.split(',')
         weekday = data[0].strip()
         hours   = join_hours(data[1:])
-        business_hours.update({weekday: hours})
+
+        if(weekday != ''):
+            business_hours.update({weekday: hours})
     return business_hours
 
 def parse_float(value: str, default: float = 0) -> float:
