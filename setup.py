@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="place_scrapper",
-    version="0.0.1",
+    version="0.0.2",
     description='Scrapping package to retrieve data from Google Places.',
     long_description='Scrapping package to retrieve data from Google Places.',
     keywords=['google places', 'maps', 'scrapping', 'selenium'],

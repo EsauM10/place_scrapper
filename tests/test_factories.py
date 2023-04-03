@@ -139,13 +139,13 @@ def test_should_return_a_dict_with_business_hours(monkeypatch: pytest.MonkeyPatc
     factory = make_place_factory()
     monkeypatch.setattr(factory.element, 'get_attribute', get_attribute)
     assert factory.make_place().hours == {
-        'sábado':        '12:00 - 15:00',
-        'domingo':       '12:00 - 15:00',
-        'segunda-feira': '12:00 - 15:00',
-        'terça-feira':   '12:00 - 15:00',
-        'quarta-feira':  '12:00 - 15:00',
-        'quinta-feira':  '12:00 - 15:00',
-        'sexta-feira':   '12:00 - 15:00'
+        'sábado':        ['12:00 - 15:00'],
+        'domingo':       ['12:00 - 15:00'],
+        'segunda-feira': ['12:00 - 15:00'],
+        'terça-feira':   ['12:00 - 15:00'],
+        'quarta-feira':  ['12:00 - 15:00'],
+        'quinta-feira':  ['12:00 - 15:00'],
+        'sexta-feira':   ['12:00 - 15:00']
     }
     
 
