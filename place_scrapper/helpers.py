@@ -14,13 +14,20 @@ def string_is_a_number(value: str) -> bool:
         return True
     return False
 
-def split_business_hours(hours: str) -> dict[str, str]:
+def join_hours(values: list[str]) -> list[str]:
+    data = []
+    for hour in values:
+        hours = extract_hours(hour)
+        if(hours): data.append(' - '.join(hours))
+    return data
+
+def split_business_hours(text: str) -> dict[str, list[str]]:
     business_hours = {}
-    for item in hours.split(';'):
+    for item in text.split(';'):
         data = item.split(',')
         weekday = data[0].strip()
-        hour = extract_hours(data[1])
-        business_hours.update({weekday: ' - '.join(hour)})
+        hours   = join_hours(data[1:])
+        business_hours.update({weekday: hours})
     return business_hours
 
 def parse_float(value: str, default: float = 0) -> float:
