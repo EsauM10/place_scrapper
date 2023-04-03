@@ -6,7 +6,7 @@ class Place:
         rating: float,
         recommendations: int,
         address: str,
-        hours: dict[str, str],
+        hours: dict[str, list[str]],
         phone: str,
         plus_code: str,
         image_url: str,

@@ -20,7 +20,7 @@ class PlaceFactory:
         except:
             return ''
 
-    def __get_business_hours(self) -> dict[str, str]:
+    def __get_business_hours(self) -> dict[str, list[str]]:
         try:
             aria_label = self.find_element_by_xpath(Selectors.PLACE_HOURS).get_attribute('aria-label')
             return split_business_hours(aria_label)
