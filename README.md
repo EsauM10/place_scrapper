@@ -1,5 +1,6 @@
 ![](https://img.shields.io/badge/python-3.9+-blue.svg)
 ![](https://img.shields.io/badge/selenium-4.8+-silver.svg)
+![Tests](https://github.com/EsauM10/place_scrapper/actions/workflows/tests.yml/badge.svg)
 # Google Places Scrapper
 
 ## Installation
