@@ -12,7 +12,7 @@ pip install git+https://github.com/EsauM10/place_scrapper.git
 ```python
 from place_scrapper import GooglePlaces
 
-places = GooglePlaces.get_places(query='Restaurants in São Paulo')
+places = GooglePlaces.get_places(query='Restaurants in São Paulo', limit=10)
 
 for place in places:
     print(place)
