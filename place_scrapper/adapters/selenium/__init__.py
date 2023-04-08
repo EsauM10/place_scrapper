@@ -34,7 +34,7 @@ class SeleniumScrapper(Scrapper):
 
             return [
                 article.find_element(By.XPATH, value='a').get_attribute('href')
-                for article in articles
+                for article in articles[0:limit]
             ]
         except: 
             return []
