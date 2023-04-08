@@ -25,6 +25,6 @@ class Scrapper(ABC):
         pass
 
     @abstractmethod
-    def get_place_urls(self, query: str) -> list[str]:
+    def get_place_urls(self, query: str, limit: int) -> list[str]:
         pass
 

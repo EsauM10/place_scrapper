@@ -30,13 +30,11 @@ class SeleniumDriver:
     def find_element(self, selector: str) -> WebElement:
         return self.__driver.find_element(By.XPATH, value=selector)
 
-    def scroll_until_find(self, scrollable_element: WebElement, selector: str):
-        while True:
-            try:
-                self.find_element(selector)
-                break
-            except:
-                scrollable_element.send_keys(Keys.PAGE_DOWN)
+    def scroll_element(self, scrollable_element: WebElement):
+        self.__driver.execute_script(
+            'arguments[0].scrollTo(0, arguments[0].scrollHeight)',
+            scrollable_element
+        )
 
     def close(self):
         self.__driver.close()

@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 
 from place_scrapper.adapters.selenium.factories import PlaceFactory
 from place_scrapper.adapters.selenium.facade import SeleniumDriver
@@ -10,15 +11,25 @@ class SeleniumScrapper(Scrapper):
     def __init__(self) -> None:
         pass
     
+    def get_articles_size(self, feed: WebElement) -> int:
+        return len(feed.find_elements(By.XPATH, value=Selectors.ARTICLES))
 
-    def get_place_urls(self, query: str) -> list[str]:
+    def scroll_until_end(self, driver: SeleniumDriver, feed: WebElement, limit: int):
+        while self.get_articles_size(feed) < limit:
+            try:
+                driver.find_element(Selectors.FEED_FOOTER)
+                break
+            except:
+                driver.scroll_element(feed)
+    
+    def get_place_urls(self, query: str, limit: int) -> list[str]:
         url = f'https://www.google.com/maps/search/{query}'
         driver = SeleniumDriver()
 
         try:
             driver.goto(url)
             feed = driver.await_element(Selectors.FEED, timeout=5)
-            driver.scroll_until_find(feed, Selectors.FEED_FOOTER)
+            self.scroll_until_end(driver, feed, limit)
             articles = feed.find_elements(By.XPATH, value=Selectors.ARTICLES)
 
             return [
