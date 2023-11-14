@@ -16,37 +16,48 @@ class PlaceFactory:
     def __get_address(self) -> str:
         try:
             aria_label = self.find_element_by_xpath(Selectors.PLACE_ADDRESS).get_attribute('aria-label')
+            if(aria_label is None): raise
             return aria_label.split(':').pop().strip()
         except:
+            print(f'[place_scrapper]: Selectors.PLACE_ADDRESS="{Selectors.PLACE_ADDRESS}" not found')
             return ''
 
     def __get_business_hours(self) -> dict[str, list[str]]:
         try:
             aria_label = self.find_element_by_xpath(Selectors.PLACE_HOURS).get_attribute('aria-label')
+            if(aria_label is None): raise
             return split_business_hours(aria_label)
         except:
+            print(f'[place_scrapper]: Selectors.PLACE_HOURS="{Selectors.PLACE_HOURS}" not found')
             return {}
     
     def __get_image_url(self) -> str:
         try:
             image = self.find_element_by_xpath(Selectors.PLACE_IMAGE)
-            return image.get_attribute('src')
+            image_url = image.get_attribute('src')
+            if(image_url is None): raise
+            return image_url
         except:
+            print(f'[place_scrapper]: Selectors.PLACE_IMAGE="{Selectors.PLACE_IMAGE}" not found')
             return ''
     
     def __get_phone(self) -> str:
         try:
             button = self.find_element_by_xpath(Selectors.PLACE_PHONE)
             phone  = button.get_attribute('data-item-id')
+            if(phone is None): raise
             return extract_numbers(phone)[0]
         except:
+            print(f'[place_scrapper]: Selectors.PLACE_PHONE="{Selectors.PLACE_PHONE}" not found')
             return ''
         
     def __get_plus_code(self) -> str:
         try:
             aria_label = self.find_element_by_xpath(Selectors.PLACE_PLUS_CODE).get_attribute('aria-label')
+            if(aria_label is None): raise
             return aria_label.split('Plus Code: ').pop()
         except:
+            print(f'[place_scrapper]: Selectors.PLACE_PLUS_CODE="{Selectors.PLACE_PLUS_CODE}" not found')
             return ''
 
     def __get_rating(self) -> float:
@@ -54,6 +65,7 @@ class PlaceFactory:
             span = self.find_element_by_xpath(Selectors.PLACE_RATING)
             return parse_float(span.text)
         except:
+            print(f'[place_scrapper]: Selectors.PLACE_RATING="{Selectors.PLACE_RATING}" not found')
             return 0
         
     def __get_recommendations(self) -> int:
@@ -62,12 +74,14 @@ class PlaceFactory:
             recommendations = extract_numbers(span.text)[0]
             return int(recommendations.replace('.', ''))
         except:
+            print(f'[place_scrapper]: Selectors.PLACE_RECOMMENDATIONS="{Selectors.PLACE_RECOMMENDATIONS}" not found')
             return 0
     
     def __get_title(self) -> str:
         try:
             return self.find_element_by_xpath(Selectors.PLACE_TITLE).text
         except:
+            print(f'[place_scrapper]: Selectors.PLACE_TITLE="{Selectors.PLACE_TITLE}" not found')
             return ''
 
     def make_place(self) -> Place:

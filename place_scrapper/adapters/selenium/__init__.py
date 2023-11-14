@@ -12,7 +12,10 @@ class SeleniumScrapper(Scrapper):
         pass
     
     def get_articles_size(self, feed: WebElement) -> int:
-        return len(feed.find_elements(By.XPATH, value=Selectors.ARTICLES))
+        articles = feed.find_elements(By.XPATH, value=Selectors.ARTICLES)
+        if(not articles): 
+            raise Exception(f'Selectors.ARTICLES="{Selectors.ARTICLES}" not found')
+        return len(articles)
 
     def scroll_until_end(self, driver: SeleniumDriver, feed: WebElement, limit: int):
         while self.get_articles_size(feed) < limit:
@@ -35,8 +38,9 @@ class SeleniumScrapper(Scrapper):
             return [
                 article.find_element(By.XPATH, value='a').get_attribute('href')
                 for article in articles[0:limit]
-            ]
-        except: 
+            ] # type: ignore
+        except Exception as ex:
+            print('[place_scrapper]:', ex) 
             return []
         finally:
             driver.close()
@@ -48,7 +52,7 @@ class SeleniumScrapper(Scrapper):
         
         try:
             for i, url in enumerate(place_urls):
-                print(f'Scrapping places... ({i+1}/{len(place_urls)})', end='\r')
+                print(f'[place_scrapper]: Scrapping places... ({i+1}/{len(place_urls)})', end='\r')
                 driver.goto(url)
                 place_div = driver.await_element(Selectors.PLACE_CONTAINER, timeout=5)
                 places.append(PlaceFactory(url, element=place_div).make_place())
