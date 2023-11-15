@@ -1,3 +1,6 @@
+import time
+from pytest import MonkeyPatch
+
 from place_scrapper import helpers
 
 def test_should_extract_hours_from_a_string():
@@ -98,4 +101,19 @@ def test_should_parse_a_string_to_a_float_value():
     for value, expected in values.items():
         result = helpers.parse_float(value, default=default_value)
         assert result == expected
-    
+
+
+def test_should_return_true_if_timeout_expired(monkeypatch: MonkeyPatch):
+    initial_time = time.time()
+    timeout = 10
+    add_ten_seconds = lambda: initial_time + timeout + 1
+    monkeypatch.setattr(time, 'time', add_ten_seconds)
+    assert helpers.is_timed_out(initial_time, timeout) == True
+
+
+def test_should_return_false_if_timeout_not_expired(monkeypatch: MonkeyPatch):
+    initial_time = time.time()
+    timeout = 10
+    add_ten_seconds = lambda: initial_time + timeout
+    monkeypatch.setattr(time, 'time', add_ten_seconds)
+    assert helpers.is_timed_out(initial_time, timeout) == False

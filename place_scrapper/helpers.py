@@ -42,5 +42,5 @@ def parse_float(value: str, default: float = 0) -> float:
     return default
 
 def is_timed_out(initial_time: float, timeout: float) -> bool:
-    time_ellapsed = time.time() - initial_time
-    return (time_ellapsed) > timeout
+    time_elapsed = time.time() - initial_time
+    return time_elapsed > timeout
