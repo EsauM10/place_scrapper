@@ -1,4 +1,5 @@
 import re
+import time
 
 HOUR_FORMAT = r'\d{2}:\d{2}'
 POSITIVE_NUMBER = r'\d+(?:\,|\.)?\d+'
@@ -40,3 +41,6 @@ def parse_float(value: str, default: float = 0) -> float:
         return float(value.replace(',', '.'))
     return default
 
+def is_timed_out(initial_time: float, timeout: float) -> bool:
+    time_ellapsed = time.time() - initial_time
+    return (time_ellapsed) > timeout

@@ -1,8 +1,10 @@
+import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
 from place_scrapper.adapters.selenium.factories import PlaceFactory
 from place_scrapper.adapters.selenium.facade import SeleniumDriver
+from place_scrapper.helpers import is_timed_out
 from place_scrapper.models import Place
 from place_scrapper.protocols import Scrapper, Selectors
 
@@ -17,12 +19,15 @@ class SeleniumScrapper(Scrapper):
             raise Exception(f'Selectors.ARTICLES="{Selectors.ARTICLES}" not found')
         return len(articles)
 
-    def scroll_until_end(self, driver: SeleniumDriver, feed: WebElement, limit: int):
+    def scroll_until_end(self, driver: SeleniumDriver, feed: WebElement, limit: int, timeout: float = 20):
+        initial_time = time.time()
+        
         while self.get_articles_size(feed) < limit:
             try:
                 driver.find_element(Selectors.FEED_FOOTER)
                 break
             except:
+                if(is_timed_out(initial_time, timeout)): break
                 driver.scroll_element(feed)
     
     def get_place_urls(self, query: str, limit: int) -> list[str]:
