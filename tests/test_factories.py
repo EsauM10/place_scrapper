@@ -32,22 +32,19 @@ def make_place_factory() -> PlaceFactory:
         def find_element_by_xpath(self, selector: str) -> WebElement:
             return self.element
         
-    return PlaceFactoryMock(url='https://www.google.com/maps/place/', element=make_web_element())
+    return PlaceFactoryMock(
+        url='https://www.google.com/maps/place/Boucherie+West+Village/data=!4m7!3m6!1s0x89c25993862d9fab', 
+        element=make_web_element()
+    )
 
 
 # ============================================ Tests ============================================ #
-def test_should_return_an_empty_title_when_get_title_raises(monkeypatch: pytest.MonkeyPatch):
-    factory = make_place_factory()
-    monkeypatch.setattr(factory, 'find_element_by_xpath', find_element_which_raises)
-    assert factory.make_place().title == ''
-    
-
 def test_should_return_a_place_with_correct_title():
     factory = make_place_factory()
     with patch('selenium.webdriver.remote.webelement.WebElement') as element:
         element.text = 'Place Title'
         factory.element = element
-        assert factory.make_place().title == 'Place Title'
+        assert factory.make_place().title == 'Boucherie West Village'
 
 
 def test_should_return_a_rating_with_zero_value_when_get_rating_raises(monkeypatch: pytest.MonkeyPatch): 

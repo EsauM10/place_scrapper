@@ -1,4 +1,4 @@
-from place_scrapper.helpers import extract_numbers, parse_float, split_business_hours
+from place_scrapper.helpers import extract_numbers, get_title_from_url, parse_float, split_business_hours
 from place_scrapper.models import Place
 from place_scrapper.protocols import Selectors
 
@@ -9,6 +9,7 @@ class PlaceFactory:
     def __init__(self, url: str, element: WebElement) -> None:
         self.url = url
         self.element = element
+        self.place_title = get_title_from_url(url)
     
     def find_element_by_xpath(self, selector: str) -> WebElement:
         return self.element.find_element(By.XPATH, value=selector)
@@ -77,16 +78,9 @@ class PlaceFactory:
             print(f'[place_scrapper]: Selectors.PLACE_RECOMMENDATIONS="{Selectors.PLACE_RECOMMENDATIONS}" not found')
             return 0
     
-    def __get_title(self) -> str:
-        try:
-            return self.find_element_by_xpath(Selectors.PLACE_TITLE).text
-        except:
-            print(f'[place_scrapper]: Selectors.PLACE_TITLE="{Selectors.PLACE_TITLE}" not found')
-            return ''
-
     def make_place(self) -> Place:
         return Place(
-            title=self.__get_title(),
+            title=self.place_title,
             rating=self.__get_rating(),
             recommendations=self.__get_recommendations(),
             address=self.__get_address(),
