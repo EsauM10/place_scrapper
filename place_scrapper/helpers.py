@@ -1,5 +1,6 @@
 import re
 import time
+from urllib.parse import unquote
 
 HOUR_FORMAT = r'\d{2}:\d{2}'
 POSITIVE_NUMBER = r'\d+(?:\,|\.)?\d+'
@@ -44,3 +45,10 @@ def parse_float(value: str, default: float = 0) -> float:
 def is_timed_out(initial_time: float, timeout: float) -> bool:
     time_elapsed = time.time() - initial_time
     return time_elapsed > timeout
+
+def get_title_from_url(url: str) -> str:
+    base_url = 'https://www.google.com/maps/place/'
+    base_url_removed = url.replace(base_url, '')
+    index_of_slash = base_url_removed.index('/')
+    title = base_url_removed[0: index_of_slash].replace('+', ' ')
+    return unquote(title)

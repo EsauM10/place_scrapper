@@ -1,4 +1,5 @@
 import time
+import pytest
 from pytest import MonkeyPatch
 
 from place_scrapper import helpers
@@ -117,3 +118,29 @@ def test_should_return_false_if_timeout_not_expired(monkeypatch: MonkeyPatch):
     add_ten_seconds = lambda: initial_time + timeout
     monkeypatch.setattr(time, 'time', add_ten_seconds)
     assert helpers.is_timed_out(initial_time, timeout) == False
+
+
+def test_should_raise_a_exception_when_incorrect_urls_are_provided():
+    urls = [
+        'Man%C3%AD/data=!4m7!3m6!1s0x94ce575aaccf6f9f',
+        'Man%C3%AD',
+        ''
+    ]
+    with pytest.raises(ValueError):
+        for url in urls:
+            helpers.get_title_from_url(url)
+
+
+def test_should_return_the_place_name_when_correct_urls_are_provided():
+    urls = {
+        'https://www.google.com/maps/place/Man%C3%AD/data=!4m7!3m6!1s0x94ce575aaccf6f9f': 'Maní',
+        'https://www.google.com/maps/place/Chef+Rouge/data=!4m7!3m6!1s0x94ce58346f0fe53f': 'Chef Rouge',
+        'https://www.google.com/maps/place/Restaurante+Mesti%C3%A7o/data=!4m7!3m6!1s0x94ce583236457555': 'Restaurante Mestiço',
+        'https://www.google.com/maps/place/Pettirosso+Ristorante/data=!4m7!3m6!1s0x94ce582aa63facf5': 'Pettirosso Ristorante',
+        'https://www.google.com/maps/place/Seen+-+Restaurant+%26+Bar/data=!4m7!3m6!1s0x94ce59c8b': 'Seen - Restaurant & Bar',
+        'https://www.google.com/maps/place/Pi%C3%B9+Pinheiros/data=!4m7!3m6!1s0x94ce57bacc6ef64d': 'Più Pinheiros',
+        'https://www.google.com/maps/place/A+Figueira+Rubaiyat/data=!4m7!3m6!1s0x94ce583397637bdb': 'A Figueira Rubaiyat',
+        'https://www.google.com/maps/place/Roi+M%C3%A9diterran%C3%A9e/data=!4m7!3m6!1s0x94ce593f94bbfd4b': 'Roi Méditerranée'
+    }
+    for url, title in urls.items():
+        assert helpers.get_title_from_url(url) == title
